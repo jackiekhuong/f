@@ -2,7 +2,17 @@
 
 {% block content %}
     <h2>Activity Information:</h2>
-    <p><strong>Name:</strong> {{ activity_info.name }}</p>
-    <p><strong>Interest Type:</strong> {{ activity_info.type }}</p>
-    <p><strong>Number of Participants:</strong> {{ activity_info.participants }}</p>
+    <p><strong>Name:</strong> {{ activity_info['name'] }}</p>
+    <p><strong>Interest Type:</strong> {{ activity_info['type'] }}</p>
+    <p><strong>Number of Participants:</strong> {{ activity_info['participants'] }}</p>
+
+    {% if wikipedia_summary %}
+        <div class="wikipedia-info">
+            <h3>Wikipedia Summary:</h3>
+            <p>{{ wikipedia_summary }}</p>
+            {% if wikipedia_link %}
+                <a href="{{ wikipedia_link }}" target="_blank">Read more on Wikipedia</a>
+            {% endif %}
+        </div>
+    {% endif %}
 {% endblock %}

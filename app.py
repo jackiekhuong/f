@@ -16,7 +16,13 @@ def get_activity(interest):
     response = requests.get(f"https://www.boredapi.com/api/activity?type={selected_type}")
     activity_data = response.json()
 
-    return activity_data
+    wikipedia_response = requests.get(f"https://en.wikipedia.org/api/rest_v1/page/summary/{selected_type}")
+    wikipedia_data = wikipedia_response.json()
+
+    wikipedia_summary = wikipedia_data.get('extract', '')
+    wikipedia_link = wikipedia_data.get('content_urls', {}).get('desktop', {}).get('page', '')
+
+    return activity_data, wikipedia_summary, wikipedia_link
 
 @app.route('/')
 def index():
@@ -25,9 +31,10 @@ def index():
 @app.route('/result', methods=['POST'])
 def result():
     interest = request.form['interest']
-    activity_data = get_activity(interest)
-    return render_template('index.html', activity=activity_data['activity'], interest=interest,
-                           participants=activity_data['participants'])
+    activity_data, wikipedia_summary, wikipedia_link = get_activity(interest)
+    return render_template('index.html', activity=activity_data, interest=interest,
+                           participants=activity_data['participants'],
+                           wikipedia_summary=wikipedia_summary, wikipedia_link=wikipedia_link)
 
 if __name__ == '__main__':
     app.run(debug=True)
