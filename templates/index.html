@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form action="/result" method="post">
+        <label for="interest">Select your top choice interest:</label>
+        <select id="interest" name="interest">
+            <option value="Learn">Learn</option>
+            <option value="Fun">Fun</option>
+            <option value="Creative">Creative</option>
+            <option value="Chill">Chill</option>
+        </select>
+        <button type="submit">Find Activity</button>
+    </form>
+
+    {% if activity %}
+        <div class="activity-info">
+            <h2 class="activity-name">{{ activity }}</h2>
+            <p><strong>Interest Type:</strong> {{ interest }}</p>
+            <p><strong>Number of Participants:</strong> {{ participants }}+</p>
+        </div>
+    {% endif %}
+{% endblock %}
